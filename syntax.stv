@@ -1,0 +1,51 @@
+# This file is valid for stackvar language
+# Comments
+
+
+# "print" function
+"Hello world!\n" print  # Printing Hello world! in stdout
+
+# Printing multiple elements using stack
+"Hi!"  # first elem
+"\n"   # second elem
+2      # number of elems
+printn # printn function takes 2 elems and print them (separated by space)
+
+
+# Types
+# _INT - int
+# _STRING - string
+# _LL - long long
+# _U[Any type] - unsigned [Any type] - example: "_UINT"; "_ULL"
+
+
+# Variables
+_INT "a" var    # define variable "a" with int type
+_STRING "b" var # define variable "b" with string type
+5 &a push       # pushing 5 in "a" variable
+"abc" &b push   # pushing "abc" in "b" variable
+
+$a print        # printing "a" variable value
+
+# Do the same, but pushing "b" value to stack first
+$b      # push b value to stack
+print   # print out last element in stack
+
+
+# Math operations
+1 2 add         # pushing 1 and 2 to stack, and adding them, push the result to stack
+print           # print the result (3)
+5 4 sub print   # pushing 5 and 4 to stack, and subtracting them, push the result (1) to stack, and print it
+2 3 mul print   # pushing 2 and 3 to stack, and multiplying them, push the result (6) to stack, and print it
+9 3 div print   # pushing 9 and 3 to stack, and divide them, push the result (3) to stack, and print it.
+# todo: make mod operation
+
+
+# Stack features
+clear       # clear the stack
+isempty     # push 1 to stack, if stack is empty, 0, if else.
+rem         # remove last element in stack - example: {43, 2, 0} -> {43, 2}
+remf        # remove first element in stack - example: {43, 2, 0} -> {2, 0}
+
+
+# todo: make some more features

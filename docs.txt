@@ -1,2 +1,36 @@
-Parsed code structure:
-# todo: Write a documentation
+Firsts, program reads the file (in src/main.py) and send it to lexer (in src/lexer.py).
+Lexer returns list of tokens.
+
+Token list:
+[
+    <data type> <value>,
+    ...
+]
+
+Values is parsed from code.
+To see possible data types, look at "src/StackvarTypes.py".
+
+Next task is producing SVIL code from tokens (in src/parser.py)
+
+SVIL: StackVar Intermediate Language
+
+SVIL syntax:
+<command> <value(s)>
+...
+
+Available commands:
+    push - push value to stack
+    rem - remove last value from stack
+And so on, like in Stackvar syntax.
+
+So SVIL is basically more strong version of Stackvar, but except of text, it uses tokens.
+
+Then SVIL code goes to the interpreter, where it will be executed.
+
+If you want to get more information, you can try to read source code.
+I am trying to make it understandable and laconic.
+
+I am glad, that you are interested in it. Thanks for reading.
+
+
+flop-code 2022

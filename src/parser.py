@@ -1,7 +1,7 @@
-def stv_parser(code: str) -> dict:
+def stv_parser(parsed_code: list) -> list:
     """
-    Stackvar code parser.
-    Accepts a string (code) and returns a parsed dictionary.
-    Look in ../docs.txt for more information and parsed dict structure.
+    Stackvar parser.
+    Accepts a list of tokens (parsed_code) and returns list of SVIL lines.
+    Look in ../docs.txt for more information.
     """
     pass  # todo: implement parser

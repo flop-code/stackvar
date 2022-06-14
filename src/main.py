@@ -1,7 +1,7 @@
 from sys import argv
 
-from parser import stv_parser
 from lexer import stv_lexer
+from parser import stv_parser
 from interpreter import stv_interpreter
 
 
@@ -16,12 +16,13 @@ def main(args: list) -> None:
 
     DEV_MODE = "--dev" in args
 
-    parsed_code = stv_parser(code)
-    errors = stv_lexer(parsed_code)
-    if errors:
-        exit(1)
-
-    stv_interpreter(parsed_code)
+    tokens: list = stv_lexer(code)
+    svil: list = stv_parser(tokens)
+    if DEV_MODE:
+        print(tokens)
+        print("\n--------- SVIL ---------\n")
+        print(svil)
+    stv_interpreter(svil)
 
 
 if __name__ == "__main__":

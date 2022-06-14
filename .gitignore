@@ -1,2 +1,12 @@
-# Ignore Python cache:
+# Python cache
 src/__pycache__/
+*.py[cod]
+
+# Pip logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE settings
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/shelf/

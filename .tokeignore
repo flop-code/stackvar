@@ -1,0 +1,7 @@
+# To get real number of lines (for tokei).
+
+# Everything:
+*
+
+# Except:
+!src/

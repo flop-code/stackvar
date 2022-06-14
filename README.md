@@ -40,4 +40,4 @@ Of course, it can look difficult, but it's not that hard, if you got the idea.
 * You can see the nearest plans with "**# todo**" comments in source files
 
 
-"I hope you will enjoy it\n" print
+"I hope you will enjoy it\n"; print

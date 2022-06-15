@@ -126,3 +126,21 @@ def isempty(stack: list, vars_: Optional[dict]) -> None:
         stack.append(True)
     else:
         stack.append(False)
+
+
+def dup(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
+    try:
+        stack.append(stack[-1])
+    except IndexError:
+        return stvExceptions.TakeFromEmptyStackError
+
+
+def swap(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
+    try:
+        a: Any = stack.pop(-1)
+        b: Any = stack.pop(-1)
+
+        stack.append(a)
+        stack.append(b)
+    except IndexError:
+        return stvExceptions.TakeFromEmptyStackError

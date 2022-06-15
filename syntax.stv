@@ -52,6 +52,5 @@ print           # print the result (3)
 clear       # clear the stack
 isempty     # push TRUE to stack, if stack is empty, FALSE, if else.
 rem         # remove last element in stack - example: {43, 2, 0} -> {43, 2}
-
-
-# todo: make some more features
+dup         # duplicate last element in stack - example: {6, 7, 8} -> {6, 7, 8, 8}
+swap        # swarp last two element in stack - example: {5, 6, 7, 8} -> {5, 6, 8, 7}

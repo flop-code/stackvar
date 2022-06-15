@@ -6,8 +6,10 @@
 ![Scrutinizer build (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/build/g/flop-code/stackvar)
 ![Scrutinizer code quality (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/quality/g/flop-code/stackvar)
 ![Lines of code](https://img.shields.io/tokei/lines/github/flop-code/stackvar?category=lines)
-
-![Screenshot](screenshots/screenshot1.png)
+<br><br><br>
+<p align="center">
+  <img src="images/logo_500x620.png" />
+</p>
 
 ## About:
 Stackvar is strongly typed interpreted programming language, developed in Python.

@@ -3,31 +3,33 @@ Lexer returns list of tokens.
 
 Token list:
 [
-    <data type> <value>,
+    ( <data type> <value> ),
     ...
 ]
 
+Data type could be INT, BOOL, STRING, VARIABLE_VALUE, VARIABLE_POINTER or FUNCTION.
+
 Values is parsed from code.
-To see possible data types, look at "src/StackvarTypes.py".
 
 Next task is producing SVIL code from tokens (in src/parser.py)
 
 SVIL: StackVar Intermediate Language
 
-SVIL syntax:
-<command> <value(s)>
-...
+It looks like this:
+[
+    ( <PUSHSTACK> <value> ),
+    ( <EXEC> <function name> ),
+    ( <GET> <variable name> )
+    ...
+]
 
-Available commands:
-    push - push value to stack
-    rem - remove last value from stack
-And so on, like in Stackvar syntax.
-
-So SVIL is basically more strong version of Stackvar, but except of text, it uses tokens.
+As you can see, SVIL has only 3 commands.
+"PUSHSTACK" to push value to stack, "EXEC" to execute function,
+and "GET" to get the value of variable.
 
 Then SVIL code goes to the interpreter, where it will be executed.
 
-If you want to get more information, you can try to read source code.
+If you want to get more information, you can try to read source code and docstrings.
 I am trying to make it understandable and laconic.
 
 I am glad, that you are interested in it. Thanks for reading.

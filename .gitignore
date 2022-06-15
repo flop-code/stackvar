@@ -8,5 +8,6 @@ pip-delete-this-directory.txt
 
 # IDE settings
 .idea/workspace.xml
+.idea/discord.xml
 .idea/usage.statistics.xml
 .idea/shelf/

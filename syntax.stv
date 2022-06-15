@@ -1,26 +1,24 @@
 # flop code 2022
 # This file is valid for stackvar language
-# Comments
+
+# This is comment
 
 
 # "print" function
 "Hello world!\n"; print  # Printing Hello world! in stdout
 # To write multiple elements in one line, use semicolons.
 
-# Printing multiple elements using stack
-"Hi!"  # first elem
-"\n"   # second elem
+# Printing multiple elements, pushing them to stack first.
+"\n"   # first elem
+"Hi!"  # second elem
 2      # number of elems
 printn # printn function takes 2 elems and print them (separated by space)
 
 
 # Types
-# _BOOL - bool - boolean
+# _BOOL - bool - boolean - TRUE / FALSE
 # _INT - int - integer
 # _STRING - string
-# _LL - long long int - very long integer
-# _UINT - unsigned int - not negative integer
-# _ULL - unsigned long long - not negative very long integer
 
 
 # Variables
@@ -29,7 +27,12 @@ _STRING; "b"; var # define variable "b" with string type
 5; &a; push       # pushing 5 in "a" variable
 "abc"; &b; push   # pushing "abc" in "b" variable
 
+# Do not push value with type different from variable type.
+# "ab"; &a; push
+# This will cause a WrongTypeError.
+
 $a; print        # printing "a" variable value
+# You can print any value of any type.
 
 # Do the same, but pushing "b" value to stack first
 $b      # push b value to stack
@@ -47,7 +50,7 @@ print           # print the result (3)
 
 # Stack features
 clear       # clear the stack
-isempty     # push 1 to stack, if stack is empty, 0, if else.
+isempty     # push TRUE to stack, if stack is empty, FALSE, if else.
 rem         # remove last element in stack - example: {43, 2, 0} -> {43, 2}
 
 

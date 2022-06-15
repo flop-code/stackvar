@@ -1,4 +1,4 @@
-from StackvarTypes import Types
+from stackvar import Types as stvTypes
 
 
 SPECIAL_SIGNS = {
@@ -23,19 +23,19 @@ def parse_string(string: str) -> str:
     except IndexError:
         raise SyntaxError(f"Unterminated string: {string}")
 
-    string = string[1:i]
+    parsed_string: str = string[1:i]
 
     # Replace special signs.
     for sign, repl in SPECIAL_SIGNS.items():
-        string = string.replace(sign, repl)
+        parsed_string = parsed_string.replace(sign, repl)
 
-    return string
+    return parsed_string
 
 
 def stv_lexer(code: str) -> list:
     """
     Stackvar code lexer.
-    Accepts a string (code) and returns a list of tokens (see ../docs.txt).
+    Accepts a string (code) and returns a list of pairs of tokens (see ../docs.txt).
     """
 
     code_lines: list = code.split('\n')
@@ -52,20 +52,22 @@ def stv_lexer(code: str) -> list:
             if not elem:
                 continue
 
-            if elem.startswith('"'):  # String.
-                tokens.append({Types.STRING: parse_string(elem)})
+            if elem == "TRUE" or elem == "FALSE":  # Boolean.
+                tokens.append((stvTypes.BOOL, elem))
+            elif elem.startswith('"'):  # String.
+                tokens.append((stvTypes.STRING, parse_string(elem)))
             elif elem.startswith('$'):  # Value of variable.
-                tokens.append({Types.VAR_VALUE: elem[1:]})
+                tokens.append((stvTypes.VAR_VALUE, elem[1:]))
             elif elem.startswith('&'):  # Pointer to variable.
-                tokens.append({Types.VAR_POINTER: elem[1:]})
+                tokens.append((stvTypes.VAR_POINTER, elem[1:]))
             elif elem.startswith('_'):  # Type.
                 try:
-                    tokens.append({Types[elem[1:]]: None})
+                    tokens.append((stvTypes[elem[1:]], None))
                 except KeyError:
                     raise SyntaxError(f"Unknown type: {elem}")
             elif elem.isdigit():  # Integer.
-                tokens.append({Types.INT: elem})
+                tokens.append((stvTypes.INT, elem))
             else:  # Function.
-                tokens.append({Types.FUNCTION: elem})
+                tokens.append((stvTypes.FUNCTION, elem))
 
     return tokens

@@ -1,5 +1,6 @@
 # Stackvar Language
 ### Development state (not ready to run)
+
 ![GitHub top language](https://img.shields.io/github/languages/top/flop-code/stackvar)
 ![Scrutinizer build (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/build/g/flop-code/stackvar)
 ![Scrutinizer code quality (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/quality/g/flop-code/stackvar)
@@ -38,7 +39,28 @@ Of course, it can look difficult, but it's not that hard, if you got the idea.
 * To learn syntax, look at [example file](syntax.stv) which represents features and syntax of language.
 * To learn how does it work look at [documentation](docs.txt).
 
+## Development milestones
+- [x] Lexer
+- [x] Parser
+- [ ] Interpreter
+- [x] Variables
+- [x] Builtin functions
+- [ ] Stackvar 0.1.0 BETA release
+- [ ] If-statements
+- [ ] While-cycles
+- [ ] Stackvar 0.2.0 BETA release
+- [ ] For-cycles
+- [ ] Functions defining
+- [ ] Stackvar 0.3.0 BETA release
+- [ ] Full testing
+- [ ] Full documentation
+- [ ] Stackvar 1.0.0 release
+
+Next goals will append after 1.0.0 release . . .
+
 ## Some other info
+Project is developed by one person.
+
 Inspired by [Porth](https://gitlab.com/tsoding/porth), which is Python implementation of [Forth](https://www.forth.com/).
 
 No code is copied.
@@ -47,5 +69,6 @@ No external modules is used.
 
 No eval / exec is used.
 
+<br>
 
-"I hope you will enjoy it\n"; print
+##### "I hope you will enjoy it\n"; print

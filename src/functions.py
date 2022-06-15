@@ -117,6 +117,19 @@ def div(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
         return stvExceptions.TakeFromEmptyStackError
 
 
+def mod(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
+    try:
+        a: int = stack.pop(-1)
+        b: int = stack.pop(-1)
+
+        if not isinstance(a, int) or not isinstance(b, int):
+            return stvExceptions.WrongTypeError
+
+        stack.append(a % b)
+    except IndexError:
+        return stvExceptions.TakeFromEmptyStackError
+
+
 def clear(stack: list, vars_: Optional[dict]) -> None:
     stack.clear()
 

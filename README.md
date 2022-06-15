@@ -38,8 +38,14 @@ Of course, it can look difficult, but it's not that hard, if you got the idea.
 * To learn syntax, look at [example file](syntax.stv) which represents features and syntax of language.
 * To learn how does it work look at [documentation](docs.txt).
 
-## Other
-* You can see the nearest plans with "**# todo**" comments in source files
+## Some other info
+Inspired by [Porth](https://gitlab.com/tsoding/porth), which is Python implementation of [Forth](https://www.forth.com/).
+
+No code is copied.
+
+No external modules is used.
+
+No eval / exec is used.
 
 
 "I hope you will enjoy it\n"; print

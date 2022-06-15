@@ -40,12 +40,13 @@ print   # print out last element in stack
 
 
 # Math operations
-1; 2; add         # pushing 1 and 2 to stack, and adding them, push the result to stack
+1; 2; add         # pushing 1 and 2 to stack, and adding them, push the result to stack.
+# By the way, you can also concatenate strings with "add".
 print           # print the result (3)
 5; 4; sub; print   # pushing 5 and 4 to stack, and subtracting them, push the result (1) to stack, and print it
 2; 3; mul; print   # pushing 2 and 3 to stack, and multiplying them, push the result (6) to stack, and print it
 9; 3; div; print   # pushing 9 and 3 to stack, and divide them, push the result (3) to stack, and print it.
-# todo: make mod operation
+7; 2; mod; print   # pushing 7 and 2 to stack, and push the reminder from dividing them (1) to stack, and print it.
 
 
 # Stack features
@@ -53,4 +54,4 @@ clear       # clear the stack
 isempty     # push TRUE to stack, if stack is empty, FALSE, if else.
 rem         # remove last element in stack - example: {43, 2, 0} -> {43, 2}
 dup         # duplicate last element in stack - example: {6, 7, 8} -> {6, 7, 8, 8}
-swap        # swarp last two element in stack - example: {5, 6, 7, 8} -> {5, 6, 8, 7}
+swap        # swap last two element in stack - example: {5, 6, 7, 8} -> {5, 6, 8, 7}

@@ -2,6 +2,7 @@
 ### Development state (not ready to run)
 
 ![GitHub top language](https://img.shields.io/github/languages/top/flop-code/stackvar)
+![GitHub](https://img.shields.io/github/license/flop-code/stackvar)
 ![Scrutinizer build (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/build/g/flop-code/stackvar)
 ![Scrutinizer code quality (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/quality/g/flop-code/stackvar)
 ![Lines of code](https://img.shields.io/tokei/lines/github/flop-code/stackvar?category=lines)
@@ -17,15 +18,13 @@ Also, it is stack-oriented, functional language with variables!
 ## Some information about project and targets
 I've created this project just for fun, so it's not very useful.
 
-And also, I don't know english very well, so sorry, if you not
-understand some descriptions and documentation...
-
 My main goal is simple:
 I am trying to improve this lang, to make it more useful.
 
 Of course, it can look difficult, but it's not that hard, if you got the idea.
 
 ## Idea of language
+* Each function can accept values from stack, and return it to stack.
 * Use stack to operate with data and store temporary values.
 * Use variables to store permanent values.
 * Have fun ;)

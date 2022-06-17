@@ -37,13 +37,22 @@ Of course, it can look difficult, but it's not that hard, if you got the idea.
 
 # Usage (Tutorial)
 * **Each** *Stackvar* file should have "**.stv**" extension
-* To learn syntax, look at [example file](syntax.stv) which represents features and syntax of language.
+* To learn the language, see the [Manual](manual.md).
 * To learn how does it work look at [documentation](docs.txt).
+
+To start the file, cd to src directory, and run main.py file with filename.
+
+```shell
+python3 main.py [filename].stv
+```
+
+Also, you can use "--dev" flag after filename, to see some dev information like tokens and SVIL code.
+
 
 ## Development milestones
 - [x] Lexer
 - [x] Parser
-- [ ] Interpreter
+- [x] Interpreter
 - [x] Variables
 - [x] Builtin functions
 - [ ] Stackvar 0.1.0 BETA release
@@ -72,4 +81,4 @@ No eval / exec is used.
 
 <br>
 
-##### "I hope you will enjoy it\n"; print
+##### "I hope you will enjoy it\n"; puts

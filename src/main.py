@@ -11,21 +11,24 @@ DEV_MODE: bool = False
 def main(args: list) -> None:
     global DEV_MODE
 
-    filename: str = args[0]
+    if DEV_MODE:
+        filename: str = "test.stv"
+    else:
+        filename: str = args[0]
     with open(filename, 'r') as f:
         code = f.read()
-
-    DEV_MODE = "--dev" in args
 
     tokens: list = stv_lexer(code)
     svil: list = stv_parser(tokens)
 
-    if DEV_MODE:
+    if "--dev" in args or DEV_MODE:
+        print("Tokens:")
         print(tokens)
-        print("\n--------- SVIL ---------\n")
+        print("\n\nSVIL:")
         print(svil)
+        print()
 
-    stv_interpreter(svil)
+    exit(stv_interpreter(svil))
 
 
 if __name__ == "__main__":

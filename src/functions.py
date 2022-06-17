@@ -12,23 +12,27 @@ member.
 """
 
 
-def print_(stack: list, vars_: Optional[dict] = None) -> Optional[stvExceptions]:
+def puts(stack: list, vars_: Optional[dict] = None) -> Optional[stvExceptions]:
     try:
-        print(stack.pop(-1)[1])
+        print(stack.pop(-1), end="")
     except IndexError:
         return stvExceptions.TakeFromEmptyStackError
 
 
-def printn(stack: list, vars_: Optional[dict] = None) -> Optional[stvExceptions]:
+def putsm(stack: list, vars_: Optional[dict] = None) -> Optional[stvExceptions]:
     try:
         n: int = stack.pop(-1)
         if not isinstance(n, int):
             return stvExceptions.WrongTypeError
         for i in range(n):
-            print(stack.pop(-1))
+            print(stack.pop(-1), end=" ")
     except IndexError:
         return stvExceptions.TakeFromEmptyStackError
 
+
+def putsall(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
+    for i in reversed(stack):
+        print(i, end=" ")
 
 def var(stack: list, vars_: Optional[dict] = None) -> Optional[stvExceptions]:
     try:
@@ -39,11 +43,11 @@ def var(stack: list, vars_: Optional[dict] = None) -> Optional[stvExceptions]:
             return stvExceptions.WrongTypeError
 
         if type_ == stvTypes.INT:
-            vars_[name[1]]: int = int()
+            vars_[name]: int = int()
         elif type_ == stvTypes.BOOL:
-            vars_[name[1]]: bool = bool()
+            vars_[name]: bool = bool()
         elif type_ == stvTypes.STRING:
-            vars_[name[1]]: str = str()
+            vars_[name]: str = str()
         else:
             return stvExceptions.UnknownTypeError
 
@@ -157,3 +161,7 @@ def swap(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
         stack.append(b)
     except IndexError:
         return stvExceptions.TakeFromEmptyStackError
+
+
+def reverse(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
+    stack.reverse()

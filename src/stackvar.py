@@ -30,8 +30,6 @@ class Exceptions(Enum):
     """
 
     TakeFromEmptyStackError = "Getting element from empty stack"
-    UnknownVariableError = "Accessing to undefined variable"
     UnknownFunctionError = "Accessing to undefined function"
     UnknownTypeError = "Accessing to unknown type"
     WrongTypeError = "Using wrong type"
-    InternalError = "Unknown error while execution"

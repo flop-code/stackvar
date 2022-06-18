@@ -8,13 +8,36 @@ from interpreter import stv_interpreter
 DEV_MODE: bool = False
 
 
+def interactive_mode():
+    while True:
+        try:
+            code: str = ""
+            print("New program:")
+            u_input: str = input("> ")
+            while u_input != "#end":
+                code += u_input + "\n"
+                u_input = input("> ")
+        except (EOFError, KeyboardInterrupt):
+            break
+
+        stv_interpreter(stv_parser(stv_lexer(code)))
+        print("\nEnd of program.")
+
+
 def main(args: list) -> None:
     global DEV_MODE
 
     if DEV_MODE:
         filename: str = "test.stv"
     else:
-        filename: str = args[0]
+        try:
+            filename: str = args[0]
+        except IndexError:
+            print("Stackvar language interactive mode.")
+            print("Write \"end\" to finish your program.")
+            interactive_mode()
+            return
+
     with open(filename, 'r') as f:
         code = f.read()
 

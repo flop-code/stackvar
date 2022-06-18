@@ -36,7 +36,7 @@ def putsall(stack: list, vars_: dict) -> None:
     for i in range(len(stack)-1, 0, -1):
         print(stack[i], end=" ")
     else:
-        print(stack[i-1], end="")
+        print(stack[0], end="")
 
 
 def var(stack: list, vars_: dict = None) -> Optional[stvExceptions]:

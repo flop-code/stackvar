@@ -12,14 +12,14 @@ member.
 """
 
 
-def puts(stack: list, vars_: Optional[dict] = None) -> Optional[stvExceptions]:
+def puts(stack: list, vars_: dict = None) -> Optional[stvExceptions]:
     try:
         print(stack.pop(-1), end="")
     except IndexError:
         return stvExceptions.TakeFromEmptyStackError
 
 
-def putsm(stack: list, vars_: Optional[dict] = None) -> Optional[stvExceptions]:
+def putsm(stack: list, vars_: dict = None) -> Optional[stvExceptions]:
     try:
         n: int = stack.pop(-1)
         if not isinstance(n, int):
@@ -32,14 +32,14 @@ def putsm(stack: list, vars_: Optional[dict] = None) -> Optional[stvExceptions]:
         return stvExceptions.TakeFromEmptyStackError
 
 
-def putsall(stack: list, vars_: Optional[dict]) -> None:
+def putsall(stack: list, vars_: dict) -> None:
     for i in range(len(stack)-1, 0, -1):
         print(stack[i], end=" ")
     else:
         print(stack[i-1], end="")
 
 
-def var(stack: list, vars_: Optional[dict] = None) -> Optional[stvExceptions]:
+def var(stack: list, vars_: dict = None) -> Optional[stvExceptions]:
     try:
         name: str = stack.pop(-1)
         type_: stvTypes = stack.pop(-1)
@@ -74,7 +74,7 @@ def push(stack: list, vars_: dict) -> Optional[stvExceptions]:
         return stvExceptions.TakeFromEmptyStackError
 
 
-def add(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
+def add(stack: list, vars_: dict) -> Optional[stvExceptions]:
     try:
         a: Union[int, str] = stack.pop(-1)
         b: Union[int, str] = stack.pop(-1)
@@ -87,7 +87,7 @@ def add(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
         return stvExceptions.TakeFromEmptyStackError
 
 
-def sub(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
+def sub(stack: list, vars_: dict) -> Optional[stvExceptions]:
     try:
         a: int = stack.pop(-1)
         b: int = stack.pop(-1)
@@ -100,7 +100,7 @@ def sub(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
         return stvExceptions.TakeFromEmptyStackError
 
 
-def mul(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
+def mul(stack: list, vars_: dict) -> Optional[stvExceptions]:
     try:
         a: int = stack.pop(-1)
         b: int = stack.pop(-1)
@@ -113,7 +113,7 @@ def mul(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
         return stvExceptions.TakeFromEmptyStackError
 
 
-def div(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
+def div(stack: list, vars_: dict) -> Optional[stvExceptions]:
     try:
         a: int = stack.pop(-1)
         b: int = stack.pop(-1)
@@ -126,7 +126,7 @@ def div(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
         return stvExceptions.TakeFromEmptyStackError
 
 
-def mod(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
+def mod(stack: list, vars_: dict) -> Optional[stvExceptions]:
     try:
         a: int = stack.pop(-1)
         b: int = stack.pop(-1)
@@ -139,25 +139,25 @@ def mod(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
         return stvExceptions.TakeFromEmptyStackError
 
 
-def clear(stack: list, vars_: Optional[dict]) -> None:
+def clear(stack: list, vars_: dict) -> None:
     stack.clear()
 
 
-def isempty(stack: list, vars_: Optional[dict]) -> None:
+def isempty(stack: list, vars_: dict) -> None:
     if not stack:
         stack.append(True)
     else:
         stack.append(False)
 
 
-def dup(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
+def dup(stack: list, vars_: dict) -> Optional[stvExceptions]:
     try:
         stack.append(stack[-1])
     except IndexError:
         return stvExceptions.TakeFromEmptyStackError
 
 
-def swap(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
+def swap(stack: list, vars_: dict) -> Optional[stvExceptions]:
     try:
         a: Any = stack.pop(-1)
         b: Any = stack.pop(-1)
@@ -168,5 +168,30 @@ def swap(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
         return stvExceptions.TakeFromEmptyStackError
 
 
-def reverse(stack: list, vars_: Optional[dict]) -> None:
+def reverse(stack: list, vars_: dict) -> None:
     stack.reverse()
+
+
+def cast(stack: list, vars_: dict) -> Optional[stvExceptions]:
+    try:
+        type_: stvTypes = stack.pop(-1)
+        value: str = stack.pop(-1)
+
+        try:
+            if type_ == stvTypes.INT:
+                stack.append(int(value))
+            elif type_ == stvTypes.BOOL:
+                stack.append(bool(value))
+            elif type_ == stvTypes.STRING:
+                stack.append(str(value))
+            else:
+                return stvExceptions.UnknownTypeError
+        except ValueError:
+            return stvExceptions.WrongTypeError
+
+    except IndexError:
+        return stvExceptions.TakeFromEmptyStackError
+
+
+def read(stack: list, vars_: dict) -> None:
+    stack.append(input())

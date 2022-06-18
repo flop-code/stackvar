@@ -190,6 +190,82 @@ Example: printing value of variable
 $my_variable; puts
 ```
 
+## Working with stdin (input data)
+
+To get data from stdin, we can use "read" function.
+
+Data, that you will get from stdin, will be pushed to stack in string type.
+
+Let's write a program, that will calculate sum of two numbers.
+
+First, read the numbers:
+```
+read; read
+```
+
+Then call "add" function.
+```
+add
+```
+
+And print the result.
+```
+puts; "\n"; puts
+```
+
+If we input 5 and 6, we will see 65 in console.
+
+Why? Just because add function can also concatenate strings together.
+
+So how to make integers from strings?
+
+You need to use "cast" function.
+
+First, push the element, that you want to cast to other type, and then push the type.
+
+We are already input data, so we need just to cast it.
+
+Let's cast first string into integer:
+```
+_INT; cast
+```
+
+Now, with input 5 and 6, you have stack like this: {"5"; 6}
+
+How to cast second string into integer?
+
+Let's swap the elements, and do the same with cast.
+```
+swap; _INT; cast; swap
+```
+
+Now you have stack like this: {5; 6}
+
+And now, you can add them, and print the result.
+
+Let's write a full program:
+```
+# Reading two numbers
+read; read
+
+# Cast them to integers
+_INT; cast
+swap
+_INT; cast
+swap
+
+# Adding them together
+add
+
+# Add a new line for printing
+"\n"; swap
+
+# Print them
+2; putsm
+```
+
+As you can see, wee can "#" sign, to leave comments in your code, and it will be ignored while execution.
+
 ## Ending
 That's all. You learned a Stackvar language.
 

@@ -24,15 +24,20 @@ def putsm(stack: list, vars_: Optional[dict] = None) -> Optional[stvExceptions]:
         n: int = stack.pop(-1)
         if not isinstance(n, int):
             return stvExceptions.WrongTypeError
-        for i in range(n):
+        for i in range(n-1):
             print(stack.pop(-1), end=" ")
+        else:
+            print(stack.pop(-1), end="")
     except IndexError:
         return stvExceptions.TakeFromEmptyStackError
 
 
-def putsall(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
-    for i in reversed(stack):
-        print(i, end=" ")
+def putsall(stack: list, vars_: Optional[dict]) -> None:
+    for i in range(len(stack)-1, 0, -1):
+        print(stack[i], end=" ")
+    else:
+        print(stack[i-1], end="")
+
 
 def var(stack: list, vars_: Optional[dict] = None) -> Optional[stvExceptions]:
     try:
@@ -163,5 +168,5 @@ def swap(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
         return stvExceptions.TakeFromEmptyStackError
 
 
-def reverse(stack: list, vars_: Optional[dict]) -> Optional[stvExceptions]:
+def reverse(stack: list, vars_: Optional[dict]) -> None:
     stack.reverse()

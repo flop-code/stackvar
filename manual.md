@@ -5,7 +5,7 @@ In this manual you can learn how to use the stackvar programming language.
 To understand how does it work, you need to know about stack data-structure.
 
 How does it work, how to use it, and why do we need it?
-If you can give an answer to this questions, then you can go to the next step.
+If you can give an answer to these questions, then you can go to the next step.
 
 ## Idea
 Idea of language, that you can use stack, to operate with data.
@@ -264,7 +264,7 @@ add
 2; putsm
 ```
 
-As you can see, wee can "#" sign, to leave comments in your code, and it will be ignored while execution.
+As you can see, wee can use "#" sign, to leave comments in your code, and it will be ignored while execution.
 
 ## Ending
 That's all. You learned a Stackvar language.

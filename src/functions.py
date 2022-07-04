@@ -1,6 +1,11 @@
 from typing import Optional, Any, Union
-from stackvar import Exceptions as stvExceptions, VariablePointer
-from stackvar import Types as stvTypes
+from stackvar import Exceptions as stvExceptions, \
+    Types as stvTypes,\
+    VariablePointer,\
+    Code as stvCode,\
+    Condition as stvCondition
+import interpreter
+
 
 """
 Stackvar functions.
@@ -12,24 +17,67 @@ member.
 """
 
 
-def puts(stack: list, vars_: dict = None) -> Optional[stvExceptions]:
+def _get(stack: list, type_: Optional[Any] = None) -> tuple:
+    """
+    Get element from stack.
+    Protected function.
+    Is not a language command.
+    Returns (True / False - Errors occured?, Value / stvException)
+    """
+
     try:
-        print(stack.pop(-1), end="")
+        elem: Any = stack.pop(-1)
+        if type_ is not None and not isinstance(elem, type_):
+            return True, stvExceptions.WrongTypeError
+        return False, elem
     except IndexError:
-        return stvExceptions.TakeFromEmptyStackError
+        return True, stvExceptions.TakeFromEmptyStackError
+
+
+def _get_pair(stack: list, type1: Optional[Any] = None, type2: Optional[Any] = None) -> tuple:
+    if type1 is None:
+        r = _get(stack)
+    else:
+        r = _get(stack, type1)
+    if r[0]:
+        return True, (r[1], None)
+    a: Any = r[1]
+
+    if type2 is None:
+        r = _get(stack)
+    else:
+        r = _get(stack, type2)
+
+    if r[0]:
+        return True, (r[1], None)
+    b: Any = r[1]
+
+    return False, (a, b)
+
+
+def puts(stack: list, vars_: dict = None) -> Optional[stvExceptions]:
+    r, elem = _get(stack)
+    if r:
+        return elem
+    print(elem, end='')
 
 
 def putsm(stack: list, vars_: dict = None) -> Optional[stvExceptions]:
-    try:
-        n: int = stack.pop(-1)
-        if not isinstance(n, int):
-            return stvExceptions.WrongTypeError
-        for i in range(n-1):
-            print(stack.pop(-1), end=" ")
-        else:
-            print(stack.pop(-1), end="")
-    except IndexError:
-        return stvExceptions.TakeFromEmptyStackError
+    r, elem = _get(stack, int)
+    if r:
+        return elem
+
+    n: int = elem
+    for i in range(n-1):
+        r, elem = _get(stack)
+        if r:
+            return elem
+        print(elem, end=" ")
+    else:
+        r, elem = _get(stack)
+        if r:
+            return elem
+        print(elem, end="")
 
 
 def putsall(stack: list, vars_: dict) -> None:
@@ -40,103 +88,70 @@ def putsall(stack: list, vars_: dict) -> None:
 
 
 def var(stack: list, vars_: dict = None) -> Optional[stvExceptions]:
-    try:
-        name: str = stack.pop(-1)
-        type_: stvTypes = stack.pop(-1)
+    r, (name, type_) = _get_pair(stack, str)
 
-        if not isinstance(name, str):
-            return stvExceptions.WrongTypeError
+    if r:
+        return name
 
-        if type_ == stvTypes.INT:
-            vars_[name]: int = int()
-        elif type_ == stvTypes.BOOL:
-            vars_[name]: bool = bool()
-        elif type_ == stvTypes.STRING:
-            vars_[name]: str = str()
-        else:
-            return stvExceptions.UnknownTypeError
-
-    except IndexError:
-        return stvExceptions.TakeFromEmptyStackError
+    if type_ == stvTypes.INT:
+        vars_[name]: int = int()
+    elif type_ == stvTypes.BOOL:
+        vars_[name]: bool = bool()
+    elif type_ == stvTypes.STRING:
+        vars_[name]: str = str()
+    else:
+        return stvExceptions.UnknownTypeError
 
 
 def push(stack: list, vars_: dict) -> Optional[stvExceptions]:
+    r, (pointer, value) = _get_pair(stack, VariablePointer)
+    if r:
+        return pointer
+    vars_[pointer.var_name] = value
+
+
+def operator_(stack, operator: str):
+    r, (a, b) = _get_pair(stack, (int, str), (int, str))
+    if r:
+        return a
+
     try:
-        pointer: VariablePointer = stack.pop(-1)
-        value: Any = stack.pop(-1)
-        var_type: Any = type(vars_[pointer.var_name])
-
-        if not isinstance(value, var_type):
-            return stvExceptions.WrongTypeError
-
-        vars_[pointer.var_name] = value
-    except IndexError:
-        return stvExceptions.TakeFromEmptyStackError
-
-
-def add(stack: list, vars_: dict) -> Optional[stvExceptions]:
-    try:
-        a: Union[int, str] = stack.pop(-1)
-        b: Union[int, str] = stack.pop(-1)
-
-        if not isinstance(a, (int, str)) or not isinstance(b, (int, str)):
-            return stvExceptions.WrongTypeError
-
-        stack.append(a + b)
-    except IndexError:
-        return stvExceptions.TakeFromEmptyStackError
-
-
-def sub(stack: list, vars_: dict) -> Optional[stvExceptions]:
-    try:
-        a: int = stack.pop(-1)
-        b: int = stack.pop(-1)
-
-        if not isinstance(a, int) or not isinstance(b, int):
-            return stvExceptions.WrongTypeError
-
-        stack.append(a - b)
-    except IndexError:
-        return stvExceptions.TakeFromEmptyStackError
-
-
-def mul(stack: list, vars_: dict) -> Optional[stvExceptions]:
-    try:
-        a: int = stack.pop(-1)
-        b: int = stack.pop(-1)
-
-        if not isinstance(a, int) or not isinstance(b, int):
-            return stvExceptions.WrongTypeError
-
-        stack.append(a * b)
-    except IndexError:
-        return stvExceptions.TakeFromEmptyStackError
-
-
-def div(stack: list, vars_: dict) -> Optional[stvExceptions]:
-    try:
-        a: int = stack.pop(-1)
-        b: int = stack.pop(-1)
-
-        if not isinstance(a, int) or not isinstance(b, int):
-            return stvExceptions.WrongTypeError
-
-        stack.append(a // b)
-    except IndexError:
-        return stvExceptions.TakeFromEmptyStackError
-
-
-def mod(stack: list, vars_: dict) -> Optional[stvExceptions]:
-    try:
-        a: int = stack.pop(-1)
-        b: int = stack.pop(-1)
-
-        if not isinstance(a, int) or not isinstance(b, int):
-            return stvExceptions.WrongTypeError
-
-        stack.append(a % b)
-    except IndexError:
-        return stvExceptions.TakeFromEmptyStackError
+        if operator == '+':
+            stack.append(a + b)
+        elif operator == '-':
+            stack.append(a - b)
+        elif operator == '*':
+            stack.append(a * b)
+        elif operator == '/':
+            stack.append(a / b)
+        elif operator == '%':
+            stack.append(a % b)
+        elif operator == '**':
+            stack.append(a ** b)
+        elif operator == '&':
+            stack.append(a & b)
+        elif operator == '|':
+            stack.append(a | b)
+        elif operator == '^':
+            stack.append(a ^ b)
+        elif operator == '<<':
+            stack.append(a << b)
+        elif operator == '>>':
+            stack.append(a >> b)
+        elif operator == '=':
+            stack.append(a == b)
+        elif operator == "!=":
+            stack.append(a != b)
+        elif operator == '>':
+            stack.append(a > b)
+        elif operator == '<':
+            stack.append(a < b)
+        elif operator == '>=':
+            stack.append(a >= b)
+        elif operator == '<=':
+            stack.append(a <= b)
+    except TypeError:
+        return stvExceptions.WrongTypeError
 
 
 def clear(stack: list, vars_: dict) -> None:
@@ -151,21 +166,19 @@ def isempty(stack: list, vars_: dict) -> None:
 
 
 def dup(stack: list, vars_: dict) -> Optional[stvExceptions]:
-    try:
-        stack.append(stack[-1])
-    except IndexError:
-        return stvExceptions.TakeFromEmptyStackError
+    r, elem = _get(stack)
+    if r:
+        return elem
+
+    stack.append(elem)
 
 
 def swap(stack: list, vars_: dict) -> Optional[stvExceptions]:
-    try:
-        a: Any = stack.pop(-1)
-        b: Any = stack.pop(-1)
+    r, (a, b) = _get_pair(stack)
+    if r:
+        return a
 
-        stack.append(a)
-        stack.append(b)
-    except IndexError:
-        return stvExceptions.TakeFromEmptyStackError
+    stack.extend((a, b))
 
 
 def reverse(stack: list, vars_: dict) -> None:
@@ -173,25 +186,83 @@ def reverse(stack: list, vars_: dict) -> None:
 
 
 def cast(stack: list, vars_: dict) -> Optional[stvExceptions]:
-    try:
-        type_: stvTypes = stack.pop(-1)
-        value: str = stack.pop(-1)
+    r, (type_, value) = _get_pair(stack)
+    if r:
+        return type_
 
-        try:
-            if type_ == stvTypes.INT:
-                stack.append(int(value))
-            elif type_ == stvTypes.BOOL:
-                stack.append(bool(value))
-            elif type_ == stvTypes.STRING:
-                stack.append(str(value))
-            else:
-                return stvExceptions.UnknownTypeError
-        except ValueError:
-            return stvExceptions.WrongTypeError
-
-    except IndexError:
-        return stvExceptions.TakeFromEmptyStackError
+    if type_ == stvTypes.INT:
+        stack.append(int(value))
+    elif type_ == stvTypes.BOOL:
+        stack.append(bool(value))
+    elif type_ == stvTypes.STRING:
+        stack.append(str(value))
+    else:
+        return stvExceptions.UnknownTypeError
 
 
 def read(stack: list, vars_: dict) -> None:
     stack.append(input())
+
+
+def if_(stack: list, vars_: dict) -> Optional[stvExceptions]:
+    r, (condition, code) = _get_pair(stack, bool, stvCode)
+    if r:
+        return condition
+
+    if condition:
+        exit_code: Optional[int, tuple] = interpreter.stv_interpreter(code.code, stack, vars_)
+        if isinstance(exit_code, int):
+            exit(exit_code)
+
+        stack.clear()
+        vars_.clear()
+        stack.extend(exit_code[0])
+        vars_.update(exit_code[1])
+
+
+def ifelse(stack: list, vars_: dict) -> Optional[stvExceptions]:
+    r, (condition, ifcode) = _get_pair(stack, bool, stvCode)
+    if r:
+        return condition
+
+    r, elsecode = _get(stack, stvCode)
+    if r:
+        return ifcode
+
+    if condition:
+        code: stvCode = ifcode
+    else:
+        code: stvCode = elsecode
+
+    exit_code: Optional[int, tuple] = interpreter.stv_interpreter(code.code, stack, vars_)
+    if isinstance(exit_code, int):
+        exit(exit_code)
+
+    stack.clear()
+    vars_.clear()
+    stack.extend(exit_code[0])
+    vars_.update(exit_code[1])
+
+
+def _calculate_condition(condition: stvCondition) -> Union[bool, stvExceptions]:
+    exit_code: Optional[int, tuple] = interpreter.stv_interpreter(condition.condition)
+    if isinstance(exit_code, int):
+        exit(exit_code)
+
+    r, result = _get(exit_code[0], bool)
+    if r:
+        return result
+
+    return result
+
+
+aliases_: dict = {
+    "if": if_,
+    "while": while_
+}
+
+operators_: set = {
+    "+", "-", "*", "/", "%", "**",
+    "&", "|", "^", ">>", "<<",
+    "=", "!=", ">", "<", ">=", "<="
+}

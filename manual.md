@@ -57,11 +57,11 @@ Congratulations! You just wrote your first program in Stackvar!
 
 Tip:
 
-You can separate commands with semicolons (";"), except of writing them on new lines.
+You should separate commands with spaces, except of writing them on new lines.
 
 So, you can write this:
 ```
-"Hello world!\n"; puts
+"Hello world!\n" puts
 ```
 
 It will be nicer, if you will use it.
@@ -69,18 +69,18 @@ It will be nicer, if you will use it.
 ## Math calculations
 You can use Stackvar to make math calculations.
 
-Let's write a program, that will calculate sum of two numbers.
+Let's write a program, that will calculate a sum of two numbers.
 
 First, you need to push two numbers to stack.
 
 ```
-4; 5
+4 5
 ```
 
-Then, you need to call "add" function.
+Then, you need to call "+" function.
 
 ```
-add
++
 ```
 
 The result will appear in stack.
@@ -88,7 +88,7 @@ To print it, use "puts" function.
 
 So, if you will write like this:
 ```
-4; 5; add; puts
+4 5 + puts
 ```
 
 And start it, you will see "9" in console.
@@ -96,7 +96,7 @@ And start it, you will see "9" in console.
 You can also add a new line.
 
 ```
-4; 5; add; puts
+4 5 + puts
 "\n" puts
 ```
 
@@ -115,14 +115,14 @@ It doesn't matter for adding or multiplying, but it does for subtracting or divi
 
 So, as I already said, you can also subtract values, multiply them, and divide them.
 
-To do it, use "sub", "mul" and "div" functions.
+To do it, use "-", "*" and "/" functions.
 
 
 But remember the right order of elements!
 
 If you need to subtract 5 from 4, you need to write this:
 ```
-4; 5; sub
+4 5 sub
 ```
 
 Because sub takes 5 (as the last element of stack) and subtract it with 4.
@@ -131,7 +131,7 @@ Because sub takes 5 (as the last element of stack) and subtract it with 4.
 
 (You can print it using "puts" function)
 
-Also, in Stackvar, you have "mod" function, that will return remainder of division.
+Also, in Stackvar, you have "%" function, that will a return remainder of division.
 
 ## Stack operations
 
@@ -165,14 +165,14 @@ Stackvar Types:
 
 So, let's define your first Stackvar variable:
 ```
-_INT; "my_variable"; var
+_INT "my_variable" var
 ```
 
 As you can see, to define a variable, you need to use a function called "var".
 
 Now, let's push some value into it.
 ```
-5; &my_variable; push
+5 &my_variable push
 ```
 
 So, we push a "pointer" to variable first, then the value.
@@ -187,7 +187,7 @@ To get values from variables, use $[variable]
 
 Example: printing value of variable
 ```
-$my_variable; puts
+$my_variable puts
 ```
 
 ## Working with stdin (input data)
@@ -200,7 +200,7 @@ Let's write a program, that will calculate sum of two numbers.
 
 First, read the numbers:
 ```
-read; read
+read read
 ```
 
 Then call "add" function.
@@ -210,7 +210,7 @@ add
 
 And print the result.
 ```
-puts; "\n"; puts
+puts "\n" puts
 ```
 
 If we input 5 and 6, we will see 65 in console.
@@ -227,7 +227,7 @@ We are already input data, so we need just to cast it.
 
 Let's cast first string into integer:
 ```
-_INT; cast
+_INT cast
 ```
 
 Now, with input 5 and 6, you have stack like this: {"5"; 6}
@@ -236,7 +236,7 @@ How to cast second string into integer?
 
 Let's swap the elements, and do the same with cast.
 ```
-swap; _INT; cast; swap
+swap _INT cast swap
 ```
 
 Now you have stack like this: {5; 6}
@@ -246,22 +246,22 @@ And now, you can add them, and print the result.
 Let's write a full program:
 ```
 # Reading two numbers
-read; read
+read read
 
 # Cast them to integers
-_INT; cast
+_INT cast
 swap
-_INT; cast
+_INT cast
 swap
 
 # Adding them together
-add
++
 
 # Add a new line for printing
-"\n"; swap
+"\n" swap
 
 # Print them
-2; putsm
+2 putsm
 ```
 
 As you can see, wee can use "#" sign, to leave comments in your code, and it will be ignored while execution.

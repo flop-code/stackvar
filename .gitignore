@@ -11,3 +11,6 @@ pip-delete-this-directory.txt
 .idea/discord.xml
 .idea/usage.statistics.xml
 .idea/shelf/
+
+# My test files
+src/test.stv

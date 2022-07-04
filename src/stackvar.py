@@ -11,6 +11,22 @@ class VariablePointer:
     var_name: str
 
 
+@dataclass
+class Code:
+    """
+    This class (enum) is used to store Stackvar block of code.
+    """
+    code: list
+
+
+@dataclass
+class Condition:
+    """
+    This class (enum) is used to store Stackvar condition.
+    """
+    condition: list
+
+
 class Types(Enum):
     """
     This class (enum) is used to store all Stackvar types.
@@ -21,7 +37,9 @@ class Types(Enum):
     STRING = "string"
     VAR_POINTER = "&"
     VAR_VALUE = "$"
-    FUNCTION = "f"
+    FUNCTION = "function"
+    CODE = "{}"
+    CONDITION = "()"
 
 
 class Exceptions(Enum):

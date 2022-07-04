@@ -1,14 +1,14 @@
 # Stackvar Language
 ### Development state (not ready to run)
 
-![GitHub top language](https://img.shields.io/github/languages/top/flop-code/stackvar)
-![GitHub](https://img.shields.io/github/license/flop-code/stackvar)
-![Scrutinizer build (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/build/g/flop-code/stackvar)
-![Scrutinizer code quality (GitHub/Bitbucket)](https://img.shields.io/scrutinizer/quality/g/flop-code/stackvar)
-![GitHub repo size](https://img.shields.io/github/repo-size/flop-code/stackvar)
-<br><br><br>
 <p align="center">
   <img src="images/logo_500x620.png" />
+</p>
+<p align="center">
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/flop-code/stackvar">
+  <img alt="GitHub License" src="https://img.shields.io/github/license/flop-code/stackvar">
+  <img alt="Scrutinizer build" src="https://img.shields.io/scrutinizer/build/g/flop-code/stackvar">
+  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/flop-code/stackvar">
 </p>
 
 ## About:

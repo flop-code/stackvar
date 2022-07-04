@@ -1,11 +1,11 @@
 from sys import argv
-
+from typing import Union
 from lexer import stv_lexer
 from parser import stv_parser
 from interpreter import stv_interpreter
 
 
-DEV_MODE: bool = False
+DEV_MODE: bool = True
 
 
 def interactive_mode():
@@ -51,7 +51,10 @@ def main(args: list) -> None:
         print(svil)
         print()
 
-    exit(stv_interpreter(svil))
+    exit_code: Union[int, tuple] = stv_interpreter(svil)
+
+    if isinstance(exit_code, int):
+        exit(exit_code)
 
 
 if __name__ == "__main__":

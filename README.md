@@ -13,15 +13,12 @@
 
 ## About:
 Stackvar is strongly typed interpreted programming language, developed in Python.
-###### P.S. But also compiler is planned to be implemented.
-Also, it is stack-oriented, functional language with variables!
+
+Also, it is stack-based, functional language with variables!
 
 
-## Some information about project and targets
+## Some information about project
 I've created this project just for fun, so it's not very useful.
-
-My main goal is simple:
-I am trying to improve this lang, to make it more useful.
 
 Of course, it can look difficult, but it's not that hard, if you got the idea.
 
@@ -55,9 +52,8 @@ Also, you can use "--dev" flag after filename, to see some dev information like 
 - [x] Interpreter
 - [x] Variables
 - [x] Builtin functions
-- [ ] If-statements
-- [ ] While-cycles
-- [ ] For-cycles
+- [x] If-else-statements
+- [x] While-cycles
 - [ ] Functions defining
 - [ ] Full testing
 - [ ] Full documentation

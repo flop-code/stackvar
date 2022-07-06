@@ -10,19 +10,20 @@ import interpreter
 """
 Stackvar functions.
 
-Each function accepts stack (and optional variables), and returns None or stvExceptions member.
-(In my implementation stack is list, so function accepts reference to it)
-functions returns None, if there is no error occurred, else it returns stvException
-member.
+Each function accepts stack (and optional variables),
+and return None or stvExceptions member.
+(In my implementation stack is a list, so function accepts the reference to it).
+Functions returns None, if there is no errors occurred,
+else, them returns stvException member.
 """
 
 
 def _get(stack: list, type_: Optional[Any] = None) -> tuple:
     """
-    Get element from stack.
+    Get the element from stack.
     Protected function.
     Is not a language command.
-    Returns (True / False - Errors occured?, Value / stvException)
+    Returns (True / False (Errors occured?), Value / stvException)
     """
 
     try:
@@ -35,6 +36,19 @@ def _get(stack: list, type_: Optional[Any] = None) -> tuple:
 
 
 def _get_pair(stack: list, type1: Optional[Any] = None, type2: Optional[Any] = None) -> tuple:
+    """
+    Get the pair of elements from stack.
+    Protected function.
+    Is not a language command.
+    Returns (
+        True / False - Errors occured?,
+        (
+            Value / stvException,
+            Value / None - None, if there are any error.
+        )
+    )
+    """
+
     if type1 is None:
         r = _get(stack)
     else:
@@ -81,10 +95,8 @@ def putsm(stack: list, vars_: dict = None) -> Optional[stvExceptions]:
 
 
 def putsall(stack: list, vars_: dict) -> None:
-    for i in range(len(stack)-1, 0, -1):
+    for i in range(len(stack)-1, -1, -1):
         print(stack[i], end=" ")
-    else:
-        print(stack[0], end="")
 
 
 def var(stack: list, vars_: dict = None) -> Optional[stvExceptions]:
@@ -111,7 +123,7 @@ def push(stack: list, vars_: dict) -> Optional[stvExceptions]:
 
 
 def operator_(stack, operator: str):
-    r, (a, b) = _get_pair(stack, (int, str), (int, str))
+    r, (a, b) = _get_pair(stack, (int, float, str), (int, float, str))
     if r:
         return a
 
@@ -171,6 +183,7 @@ def dup(stack: list, vars_: dict) -> Optional[stvExceptions]:
         return elem
 
     stack.append(elem)
+    stack.append(elem)
 
 
 def swap(stack: list, vars_: dict) -> Optional[stvExceptions]:
@@ -190,14 +203,17 @@ def cast(stack: list, vars_: dict) -> Optional[stvExceptions]:
     if r:
         return type_
 
-    if type_ == stvTypes.INT:
-        stack.append(int(value))
-    elif type_ == stvTypes.BOOL:
-        stack.append(bool(value))
-    elif type_ == stvTypes.STRING:
-        stack.append(str(value))
-    else:
-        return stvExceptions.UnknownTypeError
+    try:
+        if type_ == stvTypes.INT:
+            stack.append(int(value))
+        elif type_ == stvTypes.BOOL:
+            stack.append(bool(value))
+        elif type_ == stvTypes.STRING:
+            stack.append(str(value))
+        else:
+            return stvExceptions.UnknownTypeError
+    except ValueError:
+        return stvExceptions.WrongTypeError
 
 
 def read(stack: list, vars_: dict) -> None:
@@ -210,7 +226,9 @@ def if_(stack: list, vars_: dict) -> Optional[stvExceptions]:
         return condition
 
     if condition:
-        exit_code: Optional[int, tuple] = interpreter.stv_interpreter(code.code, stack, vars_)
+        exit_code: Optional[int, tuple] = interpreter.stv_interpreter(
+            code.code, stack, vars_, "[code block (called by if)]"
+        )
         if isinstance(exit_code, int):
             exit(exit_code)
 
@@ -227,14 +245,16 @@ def ifelse(stack: list, vars_: dict) -> Optional[stvExceptions]:
 
     r, elsecode = _get(stack, stvCode)
     if r:
-        return ifcode
+        return elsecode
 
     if condition:
         code: stvCode = ifcode
     else:
         code: stvCode = elsecode
 
-    exit_code: Optional[int, tuple] = interpreter.stv_interpreter(code.code, stack, vars_)
+    exit_code: Optional[int, tuple] = interpreter.stv_interpreter(
+        code.code, stack, vars_, "[code block (called by ifelse)]"
+    )
     if isinstance(exit_code, int):
         exit(exit_code)
 
@@ -244,21 +264,52 @@ def ifelse(stack: list, vars_: dict) -> Optional[stvExceptions]:
     vars_.update(exit_code[1])
 
 
-def _calculate_condition(condition: stvCondition) -> Union[bool, stvExceptions]:
-    exit_code: Optional[int, tuple] = interpreter.stv_interpreter(condition.condition)
+def _calculate_condition(condition: stvCondition, stack: list, vars_: dict) -> Union[bool, stvExceptions]:
+    exit_code: Optional[int, tuple] = interpreter.stv_interpreter(
+        condition.condition, stack, vars_, block=f"[condition ({condition.code})]"
+    )
     if isinstance(exit_code, int):
         exit(exit_code)
 
-    r, result = _get(exit_code[0], bool)
+    stack = exit_code[0]
+
+    r, result = _get(stack, bool)
     if r:
         return result
 
     return result
 
 
+def while_(stack: list, vars_: dict) -> Optional[stvExceptions]:
+    r, (condition, code) = _get_pair(stack, stvCondition, stvCode)
+    if r:
+        return condition
+
+    while _calculate_condition(condition, stack, vars_):
+        exit_code: Optional[int, tuple] = interpreter.stv_interpreter(
+            code.code, stack, vars_, "[code block called by while]"
+        )
+        if isinstance(exit_code, int):
+            exit(exit_code)
+
+        stack.clear()
+        vars_.clear()
+        stack.extend(exit_code[0])
+        vars_.update(exit_code[1])
+
+
+def inverse_(stack: list, vars_: dict) -> Optional[stvExceptions]:
+    r, n = _get(stack, int)
+    if r:
+        return n
+
+    stack.append(n ^ (2**(n.bit_length())-1))
+
+
 aliases_: dict = {
     "if": if_,
-    "while": while_
+    "while": while_,
+    "~": inverse_
 }
 
 operators_: set = {

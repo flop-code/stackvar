@@ -25,6 +25,7 @@ class Condition:
     This class (enum) is used to store Stackvar condition.
     """
     condition: list
+    code: str
 
 
 class Types(Enum):

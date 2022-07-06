@@ -12,13 +12,14 @@ stvFunctions = {  # Connect all functions.
 stvFunctions.update(functions.aliases_)  # Connect functions with aliases.
 
 
-def _error(ind: int, cmd: svilCommands, arg: Any, msg: str) -> None:
-    print(f"\nRuntime error on {ind} element (while {cmd} : \"{arg}\")\n{msg}")
+def _error(ind: int, cmd: svilCommands, arg: Any, block: str, msg: str) -> None:
+    print(f"\nRuntime error on {ind} element while {cmd} : \"{arg}\" in {block}\n{msg}")
 
 
 def stv_interpreter(parsed_code: list,
                     _stack: Optional[list] = None,
-                    _vars: Optional[dict] = None) -> Union[int, tuple]:
+                    _vars: Optional[dict] = None,
+                    block: Optional[str] = "<main>") -> Union[int, tuple]:
     """
     Stackvar interpreter.
     Accepts a list of SVIL lines (parsed_code) and executes it.
@@ -40,7 +41,7 @@ def stv_interpreter(parsed_code: list,
             if value is not None:
                 _stack.append(value)
             else:
-                _error(ind, cmd, arg, f"Unknown variable \"{arg}\"")
+                _error(ind, cmd, arg, block, f"Unknown variable \"{arg}\"")
                 return 1
         elif cmd == svilCommands.EXEC:
             if arg in functions.operators_:
@@ -49,10 +50,10 @@ def stv_interpreter(parsed_code: list,
                 try:
                     exception: Optional[stvExceptions] = stvFunctions[arg](_stack, _vars)
                 except KeyError:
-                    _error(ind, cmd, arg, f"Unknown function \"{arg}\".")
+                    _error(ind, cmd, arg, block, f"Unknown function \"{arg}\".")
                     return 1
             if exception is not None:
-                _error(ind, cmd, arg, f"{exception.name}: {exception.value}")
+                _error(ind, cmd, arg, block, f"{exception.name}: {exception.value}")
                 return 1
 
     return _stack.copy(), _vars.copy()

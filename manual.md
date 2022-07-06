@@ -109,23 +109,29 @@ Let me explain how does add function work:
 4. It pushes result to stack.
 
 It's easy, but remember, that you store elements in stack order.
-So first element, that add takes is 4, and second element is 5 (in our case).
+So first element, that + takes is 4, and second element is 5 (in our case).
 
 It doesn't matter for adding or multiplying, but it does for subtracting or dividing.
 
 So, as I already said, you can also subtract values, multiply them, and divide them.
 
-To do it, use "-", "*" and "/" functions.
+Operators in Stackvar:
+* _+_
+* _-_
+* _*_
+* _/_
+* _%_ - division remainder
+* _**_ - power
 
 
 But remember the right order of elements!
 
 If you need to subtract 5 from 4, you need to write this:
 ```
-4 5 sub
+4 5 -
 ```
 
-Because sub takes 5 (as the last element of stack) and subtract it with 4.
+Because - takes 5 (as the last element of stack) and subtract it with 4.
 
 5 - 4 = 1, so it will be pushed to stack.
 
@@ -205,7 +211,7 @@ read read
 
 Then call "add" function.
 ```
-add
++
 ```
 
 And print the result.
@@ -215,7 +221,7 @@ puts "\n" puts
 
 If we input 5 and 6, we will see 65 in console.
 
-Why? Just because add function can also concatenate strings together.
+Why? Just because + function can also concatenate strings together.
 
 So how to make integers from strings?
 
@@ -230,7 +236,7 @@ Let's cast first string into integer:
 _INT cast
 ```
 
-Now, with input 5 and 6, you have stack like this: {"5"; 6}
+Now, with input 5 and 6, you have stack like this: {"5", 6}
 
 How to cast second string into integer?
 
@@ -239,7 +245,7 @@ Let's swap the elements, and do the same with cast.
 swap _INT cast swap
 ```
 
-Now you have stack like this: {5; 6}
+Now you have stack like this: {5, 6}
 
 And now, you can add them, and print the result.
 
@@ -266,11 +272,123 @@ swap
 
 As you can see, wee can use "#" sign, to leave comments in your code, and it will be ignored while execution.
 
+## If-statements
+Words, that you write are called "elements".
+
+Each element is standalone.
+
+While compiler translates your code into SVIL, it replace new lines with spaces.
+
+In Stackvar you can store a whole block of code in stack using "Code" type.
+
+To write this standalone block of code
+(that of course can operate with stack and variables from main program),
+you should use "BEG" and "END" statements.
+
+They mean "Begin" and "End".
+
+Just like "{ }" brackets in other languages.
+
+"if" is just a function that takes boolean value and block of code out from stack,
+and executes code, if it sees TRUE, or don't do anything, if it sees FALSE.
+
+For example, let's write a program, that will check, can you drink bear, or not.
+
+Let's imagine, that you can drink beer only after 21.
+
+So, you need to get the age of user, and check if it is greater than 21.
+
+To do this, you should use operators.
+You have "=", "!=", ">", "<", ">=", "<=" and so on.
+
+```
+read _INT cast  # Read data, and cast it to a number.
+
+BEG
+    "Congratulations! You can drink beer!!!" puts
+END
+21 <= if
+```
+
+So what's going on, when we write "21 <= if"?
+
+We already have age on the stack, so we push 21, and check
+if 21 is less (or equals) than age.
+
+It is the same with "is age greater (or equals) than 21".
+
+## If-else-statements
+You can also write "else" blocks of code, to use them when condition is false.
+
+Let's use the previous program, but print, that user can not drink beer, if age is less than 21.
+
+```
+read _INT cast  # Read data, and cast it to a number.
+
+BEG
+    "You can not drink beer :(" puts
+END
+BEG
+    "Congratulations! You can drink beer!!!" puts
+END
+21 <= ifelse
+```
+
+As you can see, I used "ifelse" function to do this.
+
+"ifelse" takes boolean value, code to execute if condition is TRUE, and also code, to execute, if condition is FALSE.
+
+You can also write if and if-else statements inside another if/if-else statements.
+
+## While loops
+
+How do you repeat same action multiple times?
+
+Of course, you can copy-paste many lines of code, but you don't need to do this.
+
+Just use while loops!
+
+"while" is a function, that takes not-calculated condition and block of code as a loop body.
+
+"not-calculated condition" is another type in Stackvar.
+
+It stores condition code, so functions can calculate it multiple times.
+
+They have access to variables and other functions.
+
+To write not-calculated condition, write a simple condition, but inside brackets.
+
+Let's print out numbers from 1 to 100 using while loop.
+
+```
+_INT "c" var        # Initialize variable c.
+1 &c push           # Pushing 1 to c
+
+BEG                 # Loop body:
+    $c puts         # Print out c.
+    $c 1 + &c push  # Increasing c by 1.
+    "\n" puts       # Go to new line.
+END                 # End of loop.
+
+(100 $c <=) while   # Pushing not-calculated condition and calling while.
+
+```
+
+## Bitwise operations
+Stackvar has all popular operators included bitwise.
+
+* & and
+* | or
+* ^ xor
+* ~ flip bits
+* _>>_ right bit shift
+* _<<_ left bit shift
+
 ## Ending
 That's all. You learned a Stackvar language.
 
-To understand it better, write more code in it.
+To understand it better, try to code in it.
 
-Thanks for reading.
+Thanks for reading :)
 
 Bye.

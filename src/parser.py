@@ -43,7 +43,7 @@ def stv_parser(parsed_code: list) -> list:
             svil_code: list = stv_parser(pair[1])
             svil.append((svilCommands.PUSHSTACK, stvCode(svil_code)))
         elif pair[0] == stvTypes.CONDITION:
-            svil_code: list = stv_parser(pair[1])
-            svil.append((svilCommands.PUSHSTACK, stvCondition(svil_code)))
+            svil_code: list = stv_parser(pair[1][0])
+            svil.append((svilCommands.PUSHSTACK, stvCondition(svil_code, pair[1][1])))
 
     return svil

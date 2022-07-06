@@ -1,0 +1,11 @@
+# "BMI" program in Stackvar.
+
+# Read the parameters.
+"Input your weight (kg): " puts read _INT cast
+"Input your height (cm): " puts read _INT cast
+
+dup reverse  # To get {w, h, h} in stack.
+/ / 10000 *  # Follows the formula (w / h / h * 10000).
+_INT cast    # To get integer from float.
+
+"Your BMI is ~" puts puts  # Print the result.

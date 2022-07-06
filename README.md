@@ -74,4 +74,4 @@ No eval / exec is used.
 
 <br>
 
-##### "I hope you will enjoy it\n"; puts
+##### "I hope you will enjoy it!" puts
